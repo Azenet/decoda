@@ -1060,7 +1060,11 @@ class Decoda {
 
             // Find attributes that aren't surrounded by quotes
             if (!$this->getConfig('strictMode')) {
-                preg_match_all('/([a-z_\-]+)=([^\s' . $ce . ']+)/i', $string, $matches, PREG_SET_ORDER);
+                if (preg_match('/^\[[a-z_\-]+=[^"' . $ce . ']+\]$/i', $string)) {
+                    preg_match_all('/([a-z_\-]+)=([^' . $ce . ']+)/i', $string, $matches, PREG_SET_ORDER);
+                } else {
+                    preg_match_all('/([a-z_\-]+)=([^\s' . $ce . ']+)/i', $string, $matches, PREG_SET_ORDER);
+                }
 
                 if ($matches) {
                     foreach ($matches as $match) {
